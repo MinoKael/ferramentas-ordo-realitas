@@ -59,11 +59,7 @@ a.ficha:hover,a.ficha:focus-visible{background:var(--panel2);border-color:var(--
 }
 .ficha p{margin:0;color:#bdb7c2;font-size:14.5px;line-height:1.55;flex:1}
 .ficha .rodape{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px}
-.selo{
-  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
-  border:1px solid var(--line);padding:3px 8px;color:var(--muted);white-space:nowrap;
-}
-.selo.pronta{border-color:var(--blood);color:#e8a49c}
+
 .abrir{font-family:var(--f-disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--blood-hi)}
 a.ficha:hover .abrir{color:#f0776a}
 
