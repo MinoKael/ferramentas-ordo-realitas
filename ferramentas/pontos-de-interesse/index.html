@@ -354,6 +354,7 @@ body.read .wrap{padding-left:0}
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 </style>
+<script defer src="../../assets/analytics.js"></script>
 </head>
 <body class="edit">
 <header class="topbar">
@@ -1176,6 +1177,11 @@ async function fontsInline(){
   return fontCSS;
 }
 
+/* medicao opcional: sem gtag (aberto do disco, bloqueador) vira no-op */
+function evento(nome, dados){
+  try { if (typeof gtag === "function") gtag("event", nome, dados || {}); } catch (e) {}
+}
+
 let toastTimer = null;
 function toast(msg, ms){
   const t = document.getElementById("toast");
@@ -1276,6 +1282,12 @@ async function exportCards(list){
         erro = (e && e.message) || String(e);
       }
     }
+    if (ok) evento("exportar_imagem", {
+      formato: imgOpt.fmt,
+      escala: imgOpt.fmt === "png" ? imgOpt.scale : 1,
+      quantidade: ok,
+      falhas: bad
+    });
     toast(ok === 0
       ? "Nada foi salvo — " + erro
       : (ok === 1 ? "1 arquivo salvo" : ok + " arquivos salvos") +
@@ -1334,11 +1346,13 @@ const ACTIONS = {
   },
   dl(){
     saveFile("pontos-de-interesse.json", new Blob([document.getElementById("exp").value], {type: "application/json"}))
+      .then(() => evento("exportar_json", {acao: "baixar", cartoes: state.cards.length}))
       .catch(err => {
         if (err && err.code !== "declined") alert("Não consegui salvar o arquivo aqui. Use o botão Copiar.");
       });
   },
   copy(){
+    evento("exportar_json", {acao: "copiar", cartoes: state.cards.length});
     const t = document.getElementById("exp");
     t.select();
     navigator.clipboard ? navigator.clipboard.writeText(t.value) : document.execCommand("copy");
