@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pontos de Interesse</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3372c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap">
@@ -107,11 +108,19 @@ table.t{border-top:1px solid #111;border-bottom:1px solid #111;}
 .t td.mono{font-family:var(--f-mono);font-size:12.2px;line-height:1.46}
 .lock{font-size:11px;opacity:.8;margin-left:3px;vertical-align:1px}
 
-td.mlabel{background:var(--k,#f0b8ab);padding:8px 10px}
+/* Quadro de mecanica: nos modulos o bloco inteiro tem um tom so, com o
+   texto em preto e as divisas separando rotulo, cabecalho e linhas. */
+.t.mech td{background:var(--m,#d2886c)}
+.t.mech td.mh{font-family:var(--f-disp);font-weight:600;font-size:12.5px;
+  letter-spacing:.06em;text-transform:uppercase}
+.t.mech td.mv{font-weight:500}
+.t.mech td.mtexto{font-weight:400;padding:9px 11px}
+td.mlabel{padding:8px 10px;vertical-align:top}
 .ml-title{font-family:var(--f-disp);font-weight:600;font-size:13px;letter-spacing:.045em;text-transform:uppercase;line-height:1.22}
+.ml-sep{opacity:.8;margin:0 2px}
 .ml-tag{display:inline-block;background:#111;color:#fff;padding:1px 6px;margin-top:4px;
   font-family:var(--f-disp);font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
-.ml-note{font-size:11.5px;line-height:1.34;margin-top:4px;color:#2c2a28}
+.ml-note{font-size:11.5px;line-height:1.34;margin-top:4px;opacity:.85}
 
 /* ---------- descricao contextual ---------- */
 .note{background:var(--note);display:grid;grid-template-columns:52px 1fr;align-items:center;padding:11px 13px 12px 6px}
@@ -127,14 +136,28 @@ body.edit .ed:focus{box-shadow:inset 0 0 0 2px var(--blood-hi);background:rgba(1
 body.edit span.ed{display:inline-block;}
 .ed:empty::before{content:attr(data-ph);color:#8d8d8d;font-style:italic}
 .head .ed:empty::before,.banner .ed:empty::before{color:rgba(255,255,255,.45)}
-mark{background:#bde06a;color:inherit;padding:0 2px}
+/* o realce e sempre claro, entao o texto dentro dele vai de preto — se
+   herdasse a cor, um realce dentro do cabecalho sairia branco no claro */
+mark{background:#bde06a;color:#111;padding:0 2px}
+#fmt{position:absolute;z-index:210;display:none;align-items:center;gap:4px;padding:5px 6px;
+  background:var(--panel2);border:1px solid var(--line);border-radius:4px;
+  box-shadow:0 10px 26px rgba(0,0,0,.55)}
+#fmt.on{display:flex}
+#fmt button{min-width:26px;height:24px;padding:0 6px;border:1px solid transparent;
+  border-radius:2px;font-size:13px;line-height:1;color:var(--txt)}
+#fmt button:hover{background:#3a3642;border-color:#4a4553}
+#fmt .fmt-cor{width:20px;height:20px;min-width:0;padding:0;border:1px solid rgba(0,0,0,.4)}
+#fmt .fmt-txt{width:20px;height:20px;min-width:0;padding:0;border-radius:50%;border:1px solid rgba(0,0,0,.4)}
+#fmt .sw-livre.redondo{border-radius:50%}
+#fmt .fmt-rot{font-family:var(--f-disp);font-size:12px;letter-spacing:.06em;color:var(--muted);padding:0 1px}
+#fmt .fmt-sep{width:1px;height:18px;background:var(--line);margin:0 2px}
+#fmt .sw-livre{width:20px;height:20px;border-width:1px;border-color:rgba(0,0,0,.4)}
 
 .gutter{position:absolute;left:-64px;top:2px;display:flex;gap:2px;opacity:0;transition:opacity .1s}
 tr:hover .gutter,.gutter:focus-within{opacity:1}
 .g{width:18px;height:18px;display:grid;place-items:center;border-radius:2px;background:#2a2830;color:#ded9e2;
   border:1px solid #423d4b;font-size:12px;line-height:1;font-family:var(--f-mono);padding:0}
 .g:hover{background:var(--blood);border-color:var(--blood);color:#fff}
-.g i{display:block;width:10px;height:10px;border:1px solid rgba(0,0,0,.4)}
 .addrow button{padding:3px 10px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
   font-family:var(--f-disp);color:#6b6b6b;background:#f4f4f4;border-top:1px dashed #c7c7c7;width:100%;text-align:left}
 .addrow button:hover{background:#e9e9e9;color:#111}
@@ -157,6 +180,13 @@ tr:hover .gutter,.gutter:focus-within{opacity:1}
 .swatches{display:flex;gap:5px;flex-wrap:wrap}
 .sw-btn{width:26px;height:22px;border-radius:2px;border:2px solid transparent}
 .sw-btn.sel{border-color:#fff}
+/* quadrado de cor livre: o input cobre o quadrado inteiro, invisivel */
+.sw-livre{position:relative;display:inline-block;width:26px;height:22px;border-radius:2px;
+  border:2px solid transparent;overflow:hidden;cursor:pointer;
+  background:conic-gradient(#e05b4a,#e8c33e,#63b357,#4a8ad0,#9a5bd0,#e05b4a)}
+.sw-livre.sel{border-color:#fff}
+.sw-livre input{position:absolute;left:-8px;top:-8px;width:calc(100% + 16px);height:calc(100% + 16px);
+  padding:0;border:0;background:transparent;opacity:0;cursor:pointer}
 .opt{display:flex;gap:5px;flex-wrap:wrap}
 .opt button{padding:4px 8px;font-size:12px;border:1px solid var(--line);border-radius:2px;background:var(--panel)}
 .opt button:hover{border-color:var(--blood-hi)}
@@ -192,6 +222,12 @@ code{font-family:var(--f-mono);font-size:12px;background:#131217;padding:1px 5px
 .tpl span{font-size:12.5px;color:var(--muted)}
 
 /* ---------- modo mesa ---------- */
+/* Modo mesa: cada cartao encaixa centralizado ao rolar. O encaixe e
+   "proximity", e nao "mandatory", entao rolar dentro de um cartao alto
+   continua livre; alem disso, cartao mais alto que a tela encaixa pelo
+   topo (.alto), para dar para ler do comeco. */
+body.read .wrap{scroll-snap-align:center}
+body.read .wrap.alto{scroll-snap-align:start}
 body.read .card-tools,body.read .blk-tools,body.read .gutter,body.read .addrow,body.read .addblk{display:none!important}
 body.read .wrap{padding-left:0}
 
@@ -336,6 +372,26 @@ body.read .wrap{padding-left:0}
 </header>
 <main id="deck"></main>
 <div id="pop"></div>
+<div id="fmt" role="toolbar" aria-label="Formatar seleção">
+  <button data-fmt="bold" title="Negrito (Ctrl+B)"><b>N</b></button>
+  <button data-fmt="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
+  <span class="fmt-sep"></span>
+  <span class="fmt-rot" title="Cor do texto">A</span>
+  <button class="fmt-txt" data-fmt="cor" data-cor="#111111" style="background:#111111" title="Texto preto"></button>
+  <button class="fmt-txt" data-fmt="cor" data-cor="#ffffff" style="background:#ffffff" title="Texto branco"></button>
+  <button class="fmt-txt" data-fmt="cor" data-cor="#ffd24a" style="background:#ffd24a" title="Texto amarelo"></button>
+  <button class="fmt-txt" data-fmt="cor" data-cor="#a8322a" style="background:#a8322a" title="Texto vermelho"></button>
+  <label class="sw-livre redondo" title="Cor do texto à escolha"><input type="color" id="fmttxt" value="#111111"></label>
+  <span class="fmt-sep"></span>
+  <span class="fmt-rot" title="Realce">▨</span>
+  <button class="fmt-cor" data-fmt="mark" data-cor="#bde06a" style="background:#bde06a" title="Realce verde"></button>
+  <button class="fmt-cor" data-fmt="mark" data-cor="#ffe066" style="background:#ffe066" title="Realce amarelo"></button>
+  <button class="fmt-cor" data-fmt="mark" data-cor="#f3b0a0" style="background:#f3b0a0" title="Realce salmão"></button>
+  <button class="fmt-cor" data-fmt="mark" data-cor="#a9d3f5" style="background:#a9d3f5" title="Realce azul"></button>
+  <label class="sw-livre" title="Realce em qualquer cor"><input type="color" id="fmtcor" value="#bde06a"></label>
+  <span class="fmt-sep"></span>
+  <button data-fmt="limpar" title="Limpar formatação">⌫</button>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -353,9 +409,33 @@ const COLORS = {
   amarelo: {n:"Amarelo", k:"#edd98a", v:"#f7eec2"},
   roxo:    {n:"Roxo",    k:"#c3a9dc", v:"#e2d5ef"},
   salmao:  {n:"Salmão",  k:"#f0b8ab", v:"#f9dcd4"},
+  terracota:{n:"Terracota", k:"#d2886c", v:"#e2a68e"},
   cinza:   {n:"Cinza",   k:"#c9c9c9", v:"#e6e6e6"}
 };
 const CKEYS = Object.keys(COLORS);
+
+/* Cor pode ser uma chave da paleta ("verde") ou um hex livre escolhido no
+   seletor. tinta() devolve sempre {k, v}: o tom cheio e uma versao clara para
+   a celula de informacao. */
+const hexOk = v => /^#[0-9a-f]{6}$/i.test(String(v || ""));
+function clarear(hex, q){
+  const n = parseInt(hex.slice(1), 16), m = c => Math.round(c + (255 - c) * q);
+  return "#" + [m(n >> 16), m((n >> 8) & 255), m(n & 255)].map(c => c.toString(16).padStart(2, "0")).join("");
+}
+function tinta(v){
+  if (COLORS[v]) return COLORS[v];
+  if (hexOk(v)) return {n: v, k: v, v: clarear(v, 0.45)};
+  return COLORS.cinza;
+}
+/* Texto preto ou branco conforme o fundo. O corte em 0,179 e o ponto em que o
+   preto passa a contrastar melhor que o branco (relacao de luminancia WCAG). */
+function luz(hex){
+  if (!hexOk(hex)) return 1;
+  const n = parseInt(hex.slice(1), 16);
+  const f = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+  return 0.2126 * f(n >> 16) + 0.7152 * f((n >> 8) & 255) + 0.0722 * f(n & 255);
+}
+const contraste = hex => luz(hex) > 0.179 ? "#111111" : "#ffffff";
 const ACCENTS = [
   ["#111111","Preto"],["#6a3f9e","Roxo"],["#c1642a","Laranja"],
   ["#3f7f4a","Verde"],["#2d5f96","Azul"],["#a8322a","Vermelho"]
@@ -422,11 +502,68 @@ const P = (ci, bi, ri) => ' data-ci="' + ci + '"' +
   (bi === undefined ? "" : ' data-bi="' + bi + '"') +
   (ri === undefined ? "" : ' data-ri="' + ri + '"');
 
-/* campo editavel; no Modo mesa vira texto puro com a marcacao aplicada */
+/* ---------- texto formatado ----------
+   Os campos guardam HTML restrito: <b>, <i>, <u> e <mark> (com a cor do realce
+   no style), mais "\n" para quebra de linha. Tudo o que entra passa por
+   sanitiza(): o que o navegador produzir no contenteditable — spans com estilo,
+   divs de Enter, sujeira colada — vira essa forma enxuta, e nada mais chega ao
+   estado nem ao SVG exportado. */
+const TAG_B = {B:1, STRONG:1}, TAG_I = {I:1, EM:1};
+function corHex(css){
+  const t = String(css || "").trim();
+  if (hexOk(t)) return t.toLowerCase();
+  const m = t.match(/rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)(?:[\s,/]+([\d.]+))?/);
+  if (!m || (m[4] !== undefined && parseFloat(m[4]) === 0)) return "";
+  return "#" + [m[1], m[2], m[3]].map(x => (+x).toString(16).padStart(2, "0")).join("");
+}
+function limpaNos(no){
+  let out = "";
+  no.childNodes.forEach(n => {
+    if (n.nodeType === 3){ out += esc(n.nodeValue); return; }
+    if (n.nodeType !== 1) return;
+    const tag = n.tagName;
+    if (tag === "BR"){ out += "\n"; return; }
+    const dentro = limpaNos(n);
+    if (TAG_B[tag]) { out += dentro.trim() ? "<b>" + dentro + "</b>" : dentro; return; }
+    if (TAG_I[tag]) { out += dentro.trim() ? "<i>" + dentro + "</i>" : dentro; return; }
+    if (tag === "U")  { out += dentro.trim() ? "<u>" + dentro + "</u>" : dentro; return; }
+    if (tag === "MARK" || tag === "SPAN" || tag === "FONT"){
+      const est = n.style || {};
+      const bg = corHex(est.backgroundColor || (tag === "MARK" && !est.background ? "#bde06a" : est.background));
+      const fg = corHex(est.color || (tag === "FONT" ? n.getAttribute("color") : ""));
+      let s = dentro;
+      if (est.fontWeight === "bold" || +est.fontWeight >= 600) s = "<b>" + s + "</b>";
+      if (est.fontStyle === "italic") s = "<i>" + s + "</i>";
+      if (est.textDecorationLine === "underline") s = "<u>" + s + "</u>";
+      if (s.trim()){
+        if (bg) s = '<mark style="background:' + bg + (fg ? ";color:" + fg : "") + '">' + s + "</mark>";
+        else if (fg) s = '<span style="color:' + fg + '">' + s + "</span>";
+      }
+      out += s;
+      return;
+    }
+    if (tag === "DIV" || tag === "P" || tag === "LI"){
+      out += (out && !/\n$/.test(out) ? "\n" : "") + dentro;
+      return;
+    }
+    out += dentro;
+  });
+  return out;
+}
+function sanitiza(html){
+  const cx = document.createElement("div");
+  cx.innerHTML = String(html == null ? "" : html);
+  return limpaNos(cx).replace(/\n+$/, "");
+}
+/* conteudo antigo era texto puro com marcacao **negrito**, *italico* e ==realce== */
+const rico = v => { v = String(v == null ? "" : v); return v.indexOf("<") < 0 ? md(v) : v; };
+
+/* campo editavel; guarda e mostra o HTML restrito */
 function ed(tag, cls, path, field, val, ph){
   const open = "<" + tag + ' class="ed ' + (cls || "") + '"' + path + ' data-f="' + field + '"';
-  if (state.mode === "read") return open + ">" + md(val) + "</" + tag + ">";
-  return open + ' contenteditable="true" data-ph="' + esc(ph || "") + '">' + esc(val) + "</" + tag + ">";
+  const html = rico(val);
+  if (state.mode === "read") return open + ">" + html + "</" + tag + ">";
+  return open + ' contenteditable="true" data-ph="' + esc(ph || "") + '">' + html + "</" + tag + ">";
 }
 /* campo opcional: some por completo no Modo mesa quando esta vazio */
 function edOpt(tag, cls, path, field, val, ph){
@@ -451,8 +588,13 @@ function skillsBlock(rows){
 }
 function noteBlock(body){ return {t:"note", id:uid(), body: body || ""}; }
 function mechBlock(){
-  return {t:"mech", id:uid(), c:"salmao", ico:"cadeado", title:"BLOQUEIO DE ACESSO", tag:"", note:"",
-    h:["",""], rows:[{a:"DESTRANCAR (senha: 4 dígitos)", b:""}, {a:"ARROMBAR", b:"DT acumulada 12"}]};
+  return {t:"mech", id:uid(), c:"terracota", ico:"cadeado", modo:"tabela",
+    title:"BLOQUEIO DE ACESSO", sub:"CADEADO DO FREEZER", tag:"", note:"",
+    h:["", ""],
+    texto:"Requer realizar as duas ações em sequência:\n<b>ALCANÇAR (DT 7)</b>\n<b>ARROMBAR (DT 7, PA 10)</b>",
+    rows:[{a:"<b>DESTRANCAR</b> (senha: 4 dígitos)", b:"", full:true},
+          {a:"<b>ARROMBAR</b> — DT acumulada 12", b:"", full:true},
+          {a:"<b>ITEM</b> (molho de chaves)", b:"", full:true}]};
 }
 function pairBlock(){
   return {t:"pair", id:uid(), c:"cinza", banner:"FERRAMENTAS", lock:false, mono:true,
@@ -469,10 +611,10 @@ function baseCard(o){
 const TEMPLATES = {
   poi: {
     nome:"Ponto de Interesse", sobre:"Cabeçalho, tabela de perícias e descrição contextual.",
-    faz: () => baseCard({title:"QUADRO NA PAREDE", desc:"Um quadro está pendurado na parede.",
+    faz: () => baseCard({title:"PONTO DE INTERESSE", desc:"Descrição do ponto de interesse.",
       blocks:[skillsBlock([
-        Object.assign(newRow("verde"), {sk:"Percepção", dt:"6"}),
-        Object.assign(newRow("verde"), {sk:"", dt:"8", cont:true})
+        Object.assign(newRow("verde"), {sk:"", dt:""}),
+        Object.assign(newRow("verde"), {sk:"", dt:"", cont:true})
       ]), noteBlock("")]})
   },
   item: {
@@ -525,8 +667,7 @@ function gutter(path, color){
     '<button class="g" data-act="row-add" title="Adicionar linha abaixo (Alt+Enter)"' + path + '>+</button>' +
     '<button class="g" data-act="row-del" title="Remover linha (Alt+Backspace)"' + path + '>−</button>' +
     (color === null ? "" :
-      '<button class="g" data-act="row-opt" title="Cor e opções da linha"' + path +
-      '><i style="background:' + color + '"></i></button>') +
+      '<button class="g" data-act="row-opt" title="Cor e opções da linha"' + path + ">⚙</button>") +
     "</div>";
 }
 function blkTools(path){
@@ -551,7 +692,7 @@ function skillsHTML(b, ci, bi){
   let h = '<table class="t"><colgroup><col style="width:18%"><col style="width:5%"><col></colgroup>';
   h += "<tr>" + b.h.map((t, i) => "<th>" + ed("span", "", P(ci, bi) + ' data-h="' + i + '"', "h" + i, t, "título") + "</th>").join("") + "</tr>";
   b.rows.forEach((r, ri) => {
-    const col = COLORS[r.c] || COLORS.cinza, path = P(ci, bi, ri);
+    const col = tinta(r.c), path = P(ci, bi, ri);
     h += "<tr>";
     if (spans[ri] > 0)
       h += '<td class="k' + (ri + spans[ri] >= b.rows.length ? " nb" : "") + '" style="--k:' + col.k +
@@ -569,36 +710,47 @@ function skillsHTML(b, ci, bi){
 
 /* --- bloco: mecanica (bloqueio / desafio de acesso) --- */
 function mechHTML(b, ci, bi){
-  const col = COLORS[b.c] || COLORS.salmao, bp = P(ci, bi);
-  const hasHead = state.mode === "edit" || (b.h[0] + b.h[1]).trim() !== "";
-  const total = Math.max(1, b.rows.length + (hasHead ? 1 : 0));
-  const label = '<td class="mlabel nb" style="--k:' + col.k + '" rowspan="' + total + '">' +
+  const col = tinta(b.c), bp = P(ci, bi);
+  const fundo = col.k, cor = contraste(fundo);
+  const soTexto = b.modo === "texto";
+  const temHead = !soTexto && (state.mode === "edit" || (b.h[0] + b.h[1]).trim() !== "");
+  const linhas = [];
+  if (temHead)
+    linhas.push('<td class="mh">' + ed("span", "", bp + ' data-h="0"', "h0", b.h[0], "coluna") + "</td>" +
+                '<td class="mh">' + ed("span", "", bp + ' data-h="1"', "h1", b.h[1], "coluna") + "</td>");
+  if (soTexto){
+    linhas.push('<td class="mtexto' + (b.mono ? " mono" : "") + '" colspan="2">' +
+      ed("div", "", bp, "texto", b.texto, "As ações exigidas, os DTs e o que acontece se falhar") + "</td>");
+  } else {
+    b.rows.forEach((r, ri) => {
+      const path = P(ci, bi, ri);
+      /* linha inteira: um comando só, sem coluna de resultado (ex.: ARROMBAR — DT 12) */
+      const inteira = r.full || (state.mode === "read" && !String(r.b || "").trim());
+      linhas.push('<td class="mv' + (b.mono ? " mono" : "") + '"' + (inteira ? ' colspan="2"' : "") + ">" +
+        gutter(path, fundo) + ed("div", "", path, "a", r.a, "condição") + "</td>" +
+        (inteira ? "" : '<td class="mv' + (b.mono ? " mono" : "") + '">' +
+          ed("div", "", path, "b", r.b, "resultado") + "</td>"));
+    });
+    if (!linhas.length) linhas.push('<td class="mv" colspan="2"></td>');
+  }
+  const rotulo = '<td class="mlabel nb" rowspan="' + linhas.length + '">' +
     '<div class="ml-title">' + icoSVG(b.ico, "em-titulo") +
-    ed("span", "", bp, "title", b.title, "TÍTULO DO BLOQUEIO") + "</div>" +
-    edOpt("div", "ml-tag", bp, "tag", b.tag, "ETIQUETA") +
-    edOpt("div", "ml-note", bp, "note", b.note, "Observação curta") + "</td>";
-  let rows = [];
-  if (hasHead) rows.push("<th>" + ed("span", "", bp + ' data-h="0"', "h0", b.h[0], "coluna") + "</th>" +
-    "<th>" + ed("span", "", bp + ' data-h="1"', "h1", b.h[1], "coluna") + "</th>");
-  b.rows.forEach((r, ri) => {
-    const path = P(ci, bi, ri), solo = !String(r.b || "").trim() && state.mode === "read";
-    rows.push('<td class="v' + (b.mono ? " mono" : "") + '" style="--v:' + col.v + '"' + (solo ? ' colspan="2"' : "") + ">" +
-      gutter(path, col.k) + ed("div", "", path, "a", r.a, "condição") + "</td>" +
-      (solo ? "" : '<td class="v' + (b.mono ? " mono" : "") + '" style="--v:' + col.v + '">' +
-        ed("div", "", path, "b", r.b, "resultado") + "</td>"));
-  });
-  if (!rows.length) rows.push('<td class="v" style="--v:' + col.v + '" colspan="2"></td>');
-  let h = '<table class="t"><colgroup><col style="width:34%"><col style="width:22%"><col></colgroup>';
-  rows.forEach((r, i) => { h += "<tr>" + (i === 0 ? label : "") + r + "</tr>"; });
-  h += "</table>";
-  return h;
+      ed("span", "", bp, "title", b.title, "TÍTULO") +
+      (state.mode === "edit" || b.sub ? '<span class="ml-sep">✦</span>' : "") +
+      edOpt("span", "", bp, "sub", b.sub, "SUBTÍTULO") + "</div>" +
+    (b.tag ? ed("div", "ml-tag", bp, "tag", b.tag, "ETIQUETA") : "") +
+    (b.note ? ed("div", "ml-note", bp, "note", b.note, "Observação") : "") + "</td>";
+  let h = '<table class="t mech" style="--m:' + fundo + ';color:' + cor + '">' +
+    '<colgroup><col style="width:32%"><col style="width:20%"><col></colgroup>';
+  linhas.forEach((l, i) => { h += "<tr>" + (i === 0 ? rotulo : "") + l + "</tr>"; });
+  return h + "</table>";
 }
 
 /* --- bloco: pares com faixa (ferramentas, conteudo em tabela) --- */
 function pairHTML(b, ci, bi){
-  const col = COLORS[b.c] || COLORS.cinza, bp = P(ci, bi);
+  const col = tinta(b.c), bp = P(ci, bi);
   let h = "";
-  if (b.banner !== null) h += '<div class="banner">'  + ed("span", "", bp, "banner", b.banner, "FAIXA") + lockMark(b.lock) + "</div>";
+  if (b.banner !== null) h += faixa(bp, b, b.c ? tinta(b.c) : null);
   h += '<table class="t"><colgroup><col style="width:32%"><col></colgroup>';
   b.rows.forEach((r, ri) => {
     const path = P(ci, bi, ri);
@@ -613,12 +765,20 @@ function pairHTML(b, ci, bi){
 
 /* --- bloco: texto com faixa --- */
 function textHTML(b, ci, bi){
-  const bp = P(ci, bi), col = COLORS[b.c];
+  const bp = P(ci, bi), col = b.c ? tinta(b.c) : null;
   let h = "";
-  if (b.banner !== null) h += '<div class="banner"' + (col ? ' style="--v:' + col.v + '"' : "") + '>' + ed("span", "", bp, "banner", b.banner, "FAIXA") + lockMark(b.lock) + "</div>";
+  if (b.banner !== null) h += faixa(bp, b, col);
   h += '<div class="textblk"' + (col ? ' style="--v:' + col.v + '"' : "") + ">" +
     ed("div", "", bp, "body", b.body, "Texto do bloco") + "</div>";
   return h;
+}
+/* A faixa preta e o padrao; com cor no bloco ela assume o tom, e o texto vira
+   preto ou branco conforme o fundo — sem isso a faixa colorida ficaria com
+   texto preto em cima de preto. */
+function faixa(bp, b, col){
+  const bg = col ? col.v : "#111111";
+  return '<div class="banner" style="background:' + bg + ';color:' + contraste(bg) + '">' +
+    ed("span", "", bp, "banner", b.banner, "FAIXA") + lockMark(b.lock) + "</div>";
 }
 
 /* --- bloco: descricao contextual --- */
@@ -667,13 +827,23 @@ function cardHTML(c, ci){
 }
 
 function render(){
-  const deck = document.getElementById("deck");
+  /* seletor de cor livre: usa change (e nao input) para nao redesenhar o menu
+   a cada arrastar do cursor dentro da paleta do sistema */
+document.addEventListener("change", e => {
+  const inp = e.target.closest && e.target.closest('input[type="color"][data-act]');
+  if (!inp) return;
+  const act = ACTIONS[inp.dataset.act];
+  if (act) act(Object.assign({}, inp.dataset, {v: inp.value}), inp);
+});
+
+const deck = document.getElementById("deck");
   document.body.classList.remove("edit", "read");
   document.body.classList.add(state.mode);
   deck.innerHTML = state.cards.length
     ? state.cards.map(cardHTML).join("")
     : '<div class="empty">Nenhum cartão ainda.<br>Comece por <b>+ Novo cartão</b> ou escolha um <b>Modelo</b>.</div>';
   document.documentElement.style.setProperty("--zoom", zoomAtual());
+  encaixe();
   document.getElementById("zoomval").textContent = Math.round(zoomAtual() * 100) + "%";
   const n = state.cards.length;
   document.getElementById("count").textContent = n + (n === 1 ? " cartão" : " cartões");
@@ -688,6 +858,18 @@ function render(){
     if (el && el.isContentEditable){ el.focus(); placeCaretEnd(el); }
     focusAfter = null;
   }
+}
+/* liga o encaixe por cartao no modo mesa e marca os que nao cabem na tela */
+function encaixe(){
+  const raiz = document.documentElement, mesa = state.mode === "read";
+  const barra = document.querySelector(".topbar");
+  raiz.style.scrollSnapType = mesa ? "y proximity" : "";
+  raiz.style.scrollPaddingTop = mesa ? ((barra ? barra.offsetHeight : 60) + 12) + "px" : "";
+  if (!mesa) return;
+  const teto = window.innerHeight * 0.9;
+  document.querySelectorAll(".wrap").forEach(w => {
+    w.classList.toggle("alto", w.getBoundingClientRect().height > teto);
+  });
 }
 function placeCaretEnd(el){
   const r = document.createRange(), s = window.getSelection();
@@ -725,7 +907,13 @@ function loadSaved(){
     return d && Array.isArray(d.cards) ? d : null;
   } catch (e) { return null; }
 }
-const commit = () => { render(); save(true); if (popCtx) paintPop(); };
+const commit = () => {
+  render(); save(true);
+  if (popCtx) paintPop();
+  const bar = document.getElementById("fmt");
+  if (bar) bar.classList.remove("on");
+  fmtAlvo = null;
+};
 
 /* ==========================================================================
    POPOVERS
@@ -739,7 +927,15 @@ function swatches(act, ds, sel, list){
     const c = COLORS[k];
     return '<button class="sw-btn' + (k === sel ? " sel" : "") + '" title="' + c.n +
       '" style="background:' + c.k + '" data-act="' + act + '" data-v="' + k + '"' + path + "></button>";
-  }).join("") + "</div>";
+  }).join("") + corLivre(act, ds, sel) + "</div>";
+}
+/* quadrado extra de cor livre; mostra o tom escolhido quando ja e um hex */
+function corLivre(act, ds, sel, padrao){
+  const livre = hexOk(sel);
+  return '<label class="sw-livre' + (livre ? " sel" : "") + '" title="Escolher qualquer cor"' +
+    (livre ? ' style="background:' + sel + '"' : "") + '>' +
+    '<input type="color" data-act="' + act + '" value="' + (livre ? sel : (padrao || tinta(sel).k)) + '"' +
+    P(ds.ci, ds.bi, ds.ri) + "></label>";
 }
 function toggleBtn(act, key, label, on, ds){
   return '<button data-act="' + act + '" data-v="' + key + '"' + (on ? ' class="on"' : "") +
@@ -755,6 +951,7 @@ function popHTML(kind, ds){
       toggleBtn("row-tog", "lock", LOCK_SVG + " Segredo", r.lock, ds) +
       toggleBtn("row-tog", "mono", "Fonte Typewriter", r.mono, ds) +
       (b.t === "skills" ? toggleBtn("row-tog", "cont", "⤷ Juntar à de cima", r.cont, ds) : "") +
+      (b.t === "mech" ? toggleBtn("row-tog", "full", "Linha inteira", r.full, ds) : "") +
       '<button data-act="row-move" data-v="-1"' + path + ' title="Mover para cima">↑</button>' +
       '<button data-act="row-move" data-v="1"' + path + ' title="Mover para baixo">↓</button>' +
       "</div>";
@@ -784,6 +981,10 @@ function popHTML(kind, ds){
       (b.t === "mech" ? toggleBtn("blk-tog", "tag", "Etiqueta preta", !!b.tag, ds) : "") +
       (b.t === "mech" ? toggleBtn("blk-tog", "note", "Observação", !!b.note, ds) : "") +
       "</div>";
+    if (b.t === "mech") h += '<h4>Conteúdo</h4><div class="opt">' +
+      '<button data-act="blk-modo" data-v="tabela"' + (b.modo !== "texto" ? ' class="on"' : "") + path + ">Tabela</button>" +
+      '<button data-act="blk-modo" data-v="texto"' + (b.modo === "texto" ? ' class="on"' : "") + path + ">Texto corrido</button>" +
+      "</div>";
     if (b.t === "mech") h += "<h4>Ícone do bloco</h4><div class=\"opt icones\">" + ICO_LISTA.map(i =>
       '<button data-act="blk-ico" data-v="' + i + '"' + (b.ico === i ? ' class="on"' : "") + path +
       ' title="' + (i || "nenhum") + '">' + (icoSVG(i) || "nenhum") + "</button>"
@@ -795,7 +996,8 @@ function popHTML(kind, ds){
   if (!c) return "";
   let h = "<h4>Cor da borda</h4><div class=\"swatches\">" + ACCENTS.map(a =>
     '<button class="sw-btn' + (c.acc === a[0] ? " sel" : "") + '" title="' + a[1] + '" style="background:' + a[0] +
-    '" data-act="card-acc" data-v="' + a[0] + '"' + path + "></button>").join("") + "</div>";
+    '" data-act="card-acc" data-v="' + a[0] + '"' + path + "></button>").join("") +
+    corLivre("card-acc", ds, ACCENTS.some(a => a[0] === c.acc) ? "" : c.acc, c.acc) + "</div>";
   h += "<h4>Cabeçalho</h4><div class=\"opt\">" +
     toggleBtn("card-tog", "num", "Número cartão", !!c.num, ds) +
     toggleBtn("card-tog", "tag", "Etiqueta evidência", !!c.tag, ds) + "</div>";
@@ -882,10 +1084,11 @@ function helpModal(){
     "<h4 style=\"font-family:var(--f-disp);letter-spacing:.1em;text-transform:uppercase;font-size:11px;color:var(--muted);margin:0 0 6px\">Linhas</h4><ul>" +
     "<li>Passe o mouse sobre uma linha: aparecem <b>+</b> (nova linha abaixo), <b>−</b> (remover) e o <b>quadradinho de cor</b>.</li>" +
     "<li><kbd>Alt</kbd>+<kbd>Enter</kbd> nova linha · <kbd>Alt</kbd>+<kbd>Backspace</kbd> remover · <kbd>Alt</kbd>+<kbd>↑</kbd>/<kbd>↓</kbd> mover · <kbd>Tab</kbd> próximo campo.</li>" +
-    "<li>No quadradinho de cor você também acha <b>⤷ Juntar à de cima</b>, que mescla a célula da perícia — é assim que uma mesma perícia recebe dois DTs.</li>" +
+    "<li>⚙ ao lado de uma linha: Você acha <b>⤷ Juntar à de cima</b>, que mescla a célula da perícia — é assim que uma mesma perícia recebe dois DTs.</li>" +
     "<li>A lista de perícias do livro está nesse mesmo menu; ao escolher uma, a cor segue o atributo-base (Físico azul, Mente verde, Emoção pêssego).</li></ul>" +
     "<h4 style=\"font-family:var(--f-disp);letter-spacing:.1em;text-transform:uppercase;font-size:11px;color:var(--muted);margin:0 0 6px\">Texto</h4><ul>" +
-    "<li><code>**negrito**</code>, <code>*itálico*</code> e <code>==destaque verde==</code> aparecem formatados no <b>Modo mesa</b> e na impressão.</li>" +
+    "<li>Selecione um trecho de texto e aparece a barra de formatação: <b>negrito</b>, itálico, <b>cor do texto</b> e realce — as duas cores com paleta rápida e escolha livre. <kbd>Ctrl</kbd>+<kbd>B</kbd> e <kbd>Ctrl</kbd>+<kbd>I</kbd> também valem.</li>" +
+    "<li>No <b>Modo mesa</b> cada cartão encaixa centralizado ao rolar; cartão mais alto que a tela rola livre.</li>" +
     "<li>O <b>Modo mesa</b> esconde todos os controles — é a visão para usar durante a sessão.</li></ul>" +
     "<h4 style=\"font-family:var(--f-disp);letter-spacing:.1em;text-transform:uppercase;font-size:11px;color:var(--muted);margin:0 0 6px\">Cartões</h4><ul>" +
     "<li>⚙ no canto do cartão: cor da borda, número, etiqueta amarela e ícone.</li>" +
@@ -1089,7 +1292,7 @@ function imageModal(){
   const btn = (k, v, rot, on) => '<button data-act="img-opt" data-k="' + k + '" data-v="' + v + '"' +
     (on ? ' class="on"' : "") + ">" + rot + "</button>";
   openModal("<h3>Exportar imagem</h3>" +
-    "<p>Um arquivo por cartão, gerado como no Modo mesa e com as fontes embutidas — pode ir direto para a gráfica.</p>" +
+    "<p>Um arquivo por cartão, gerado como no Modo mesa e com as fontes embutidas.</p>" +
     '<h4>Formato</h4><div class="opt">' +
       btn("fmt", "png", "PNG", imgOpt.fmt === "png") +
       btn("fmt", "svg", "SVG vetorial", imgOpt.fmt === "svg") + "</div>" +
@@ -1100,7 +1303,7 @@ function imageModal(){
           btn("scale", "6", "6× máxima", imgOpt.scale === 6) + "</div>" +
         "<p>Saída de <b>" + px + " px</b> de largura: " + cm + " cm impressos a 300 DPI.</p>"
       : "<p>O SVG é vetorial: imprime nítido em qualquer tamanho e o texto continua sendo texto. " +
-        "As fontes vão embutidas no arquivo, então a gráfica abre sem precisar instalar nada.</p>") +
+        "As fontes vão embutidas no arquivo.</p>") +
     '<div class="row"><button class="tb pri" data-act="img-all">Baixar ' +
       (n === 1 ? "o cartão" : "os " + n + " cartões") + "</button>" +
     '<button class="tb" data-act="close">Fechar</button></div>');
@@ -1178,6 +1381,7 @@ const ACTIONS = {
   "blk-colorall"(ds){ nodeOf(ds).rows.forEach(r => r.c = ds.v); commit(); },
   "blk-monoall"(ds){ const b = nodeOf(ds), on = !(b.rows[0] || {}).mono; b.rows.forEach(r => r.mono = on); commit(); },
   "blk-ico"(ds){ nodeOf(ds).ico = ds.v; commit(); },
+  "blk-modo"(ds){ nodeOf(ds).modo = ds.v; commit(); },
   "blk-tog"(ds){
     const b = nodeOf(ds);
     if (ds.v === "banner") b.banner = b.banner === null ? "CONTEÚDO" : null;
@@ -1230,6 +1434,7 @@ document.addEventListener("click", e => {
     if (e.target === modal()) closeModal();
     return;
   }
+  if (btn.tagName === "INPUT") return;   /* cor livre: resolvida no change */
   const act = ACTIONS[btn.dataset.act];
   if (!act) return;
   e.preventDefault();
@@ -1238,16 +1443,17 @@ document.addEventListener("click", e => {
 });
 
 const deck = document.getElementById("deck");
-deck.addEventListener("input", e => {
-  const el = e.target.closest("[data-f]");
-  if (!el || !el.isContentEditable) return;
+function guardaCampo(el){
   const node = nodeOf(el.dataset);
   if (!node) return;
-  const f = el.dataset.f;
-  const val = el.innerText.replace(/ /g, " ").replace(/\n$/, "");
+  const f = el.dataset.f, val = sanitiza(el.innerHTML);
   if (/^h[01]$/.test(f) && Array.isArray(node.h)) node.h[+f.slice(1)] = val;
   else node[f] = val;
   save();
+}
+deck.addEventListener("input", e => {
+  const el = e.target.closest("[data-f]");
+  if (el && el.isContentEditable) guardaCampo(el);
 });
 deck.addEventListener("paste", e => {
   const el = e.target.closest("[data-f]");
@@ -1267,7 +1473,70 @@ document.addEventListener("keydown", e => {
   else if (e.key === "ArrowUp"){ e.preventDefault(); moveRow(ds, -1); }
   else if (e.key === "ArrowDown"){ e.preventDefault(); moveRow(ds, 1); }
 });
-window.addEventListener("resize", () => { if (popCtx) closePop(); });
+/* ---------- barra de formatacao ----------
+   Aparece ao selecionar texto dentro de um campo. Enquanto o mouse esta nela
+   (inclusive com a paleta do sistema aberta) o alvo fica travado; sem isso a
+   selecao perdida ao abrir o seletor de cor levaria a barra junto. */
+const fmtEl = () => document.getElementById("fmt");
+let fmtAlvo = null, fmtRange = null, fmtTrava = false;
+
+function mostraFmt(){
+  const bar = fmtEl();
+  if (fmtTrava) return;
+  const sel = window.getSelection();
+  const no = sel && sel.rangeCount ? sel.anchorNode : null;
+  const alvo = no && (no.nodeType === 1 ? no : no.parentElement);
+  const campo = state.mode === "edit" && alvo && alvo.closest ? alvo.closest(".ed[contenteditable]") : null;
+  if (!campo || sel.isCollapsed){ bar.classList.remove("on"); fmtAlvo = null; return; }
+  const r = sel.getRangeAt(0).getBoundingClientRect();
+  if (!r.width && !r.height){ bar.classList.remove("on"); return; }
+  fmtAlvo = campo;
+  fmtRange = sel.getRangeAt(0).cloneRange();
+  bar.classList.add("on");
+  const larg = bar.offsetWidth;
+  let x = r.left + window.scrollX + r.width / 2 - larg / 2;
+  x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - larg - 12));
+  bar.style.left = x + "px";
+  bar.style.top = Math.max(4, r.top + window.scrollY - bar.offsetHeight - 8) + "px";
+}
+function aplicaFmt(cmd, cor){
+  if (!fmtAlvo || !fmtAlvo.isConnected) return;
+  fmtAlvo.focus({preventScroll: true});
+  if (fmtRange){
+    const sel = window.getSelection();
+    try { sel.removeAllRanges(); sel.addRange(fmtRange); } catch (e) {}
+  }
+  try { document.execCommand("styleWithCSS", false, true); } catch (e) {}
+  if (cmd === "bold" || cmd === "italic") document.execCommand(cmd);
+  else if (cmd === "mark") document.execCommand("hiliteColor", false, cor || "#bde06a");
+  else if (cmd === "cor") document.execCommand("foreColor", false, cor || "#111111");
+  else if (cmd === "limpar"){
+    document.execCommand("removeFormat");
+    document.execCommand("hiliteColor", false, "transparent");
+  }
+  guardaCampo(fmtAlvo);
+  const s2 = window.getSelection();
+  if (s2 && s2.rangeCount) fmtRange = s2.getRangeAt(0).cloneRange();
+}
+document.addEventListener("mousedown", e => {
+  fmtTrava = !!(e.target.closest && e.target.closest("#fmt"));
+}, true);
+document.addEventListener("selectionchange", mostraFmt);
+fmtEl().addEventListener("mousedown", e => {
+  const b = e.target.closest("[data-fmt]");
+  if (!b) return;
+  e.preventDefault();   /* mantem a selecao no campo */
+  aplicaFmt(b.dataset.fmt, b.dataset.cor);
+});
+document.getElementById("fmtcor").addEventListener("change", e => {
+  aplicaFmt("mark", e.target.value);
+  fmtTrava = false;
+});
+document.getElementById("fmttxt").addEventListener("change", e => {
+  aplicaFmt("cor", e.target.value);
+  fmtTrava = false;
+});
+window.addEventListener("resize", () => { if (popCtx) closePop(); fmtEl().classList.remove("on"); encaixe(); });
 
 /* ==========================================================================
    INICIO
