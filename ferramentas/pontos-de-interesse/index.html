@@ -1215,12 +1215,14 @@ async function cardSVG(ci, scale){
   stage.appendChild(card);
   document.body.appendChild(stage);
   try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
-  const h = Math.ceil(card.getBoundingClientRect().height);
+  /* altura exata, sem arredondar: a sobra viraria faixa clara no rodape */
+  const h = card.getBoundingClientRect().height;
   stage.remove();
   const css = (await fontsInline()) + "\n" + document.getElementById("appcss").textContent +
     "\n.card{box-shadow:none;height:" + h + "px}\n.gutter,.blk-tools,.card-tools,.addrow,.addblk{display:none}";
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + Math.round(w * scale) +
-    '" height="' + Math.round(h * scale) + '" viewBox="0 0 ' + w + " " + h + '">' +
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + (w * scale) +
+    '" height="' + (h * scale) + '" viewBox="0 0 ' + w + " " + h +
+    '" preserveAspectRatio="none">' +
     "<style><![CDATA[" + css + "]]></style>" +
     '<foreignObject x="0" y="0" width="' + w + '" height="' + h + '">' +
     new XMLSerializer().serializeToString(card) + "</foreignObject></svg>";
