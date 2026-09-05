@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tradutor de Sigilos</title>
 <meta name="description" content="Escreva e leia nos Sigilos do Outro Lado e nos Sinais do Estrangeiro, e exporte o resultado como imagem.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3372c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 6 6'/%3E%3Cpath d='m4 14 6-6 2-3'/%3E%3Cpath d='M2 5h12'/%3E%3Cpath d='M7 2h1'/%3E%3Cpath d='m22 22-5-10-5 10'/%3E%3Cpath d='M14 18h6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap">
@@ -216,8 +217,8 @@ code{font-family:monospace;font-size:12px;background:#131217;padding:1px 5px;bor
   <section class="aba" id="aba-sinais">
     <div class="linha">
       <div class="grupo"><span>Uso</span>
-        <button data-modo="composicao">Composição</button>
-        <button data-modo="cifra">Cifra</button>
+        <button data-modo="composicao">Interpretativa</button>
+        <button data-modo="cifra">Substituição</button>
       </div>
       <span class="dica" id="dicaModo"></span>
     </div>
@@ -274,7 +275,7 @@ code{font-family:monospace;font-size:12px;background:#131217;padding:1px 5px;bor
 
       <div class="campo">
         <div class="rot">Catálogo
-          <span class="dica">clique no sinal para usá-lo; clique no significado para corrigir o conceito</span>
+          <span class="dica">clique no sinal para usá-lo; clique no significado para corrigi-lo</span>
         </div>
         <div class="linha">
           <div class="grupo" style="flex:1;min-width:220px">
@@ -293,7 +294,7 @@ code{font-family:monospace;font-size:12px;background:#131217;padding:1px 5px;bor
     <div class="modo" id="modo-cifra">
       <div class="campo">
         <div class="rot">Texto
-          <span class="dica">letras e algarismos viram sinais; acento cai, pontuação não entra</span>
+          <span class="dica">letras e algarismos viram sinais;</span>
         </div>
         <textarea id="txtCifra" style="min-height:90px" placeholder="Ex.: a casa nao esta vazia"></textarea>
       </div>
